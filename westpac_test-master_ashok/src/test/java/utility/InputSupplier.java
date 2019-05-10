@@ -35,7 +35,7 @@ public class InputSupplier {
 			}
 
 		} else {
-			System.err.println("Please add more conditions to capture your inout type");
+			System.err.println("Please add more conditions to capture your input type");
 		}
 
 	}
