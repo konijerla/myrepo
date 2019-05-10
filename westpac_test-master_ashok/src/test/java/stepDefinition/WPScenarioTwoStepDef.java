@@ -15,6 +15,7 @@ import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebElement;
+import org.testng.annotations.AfterMethod;
 
 import cucumber.api.DataTable;
 import cucumber.api.java.en.Given;
@@ -46,7 +47,7 @@ public class WPScenarioTwoStepDef extends BrowserInstance {
 			js.executeScript("arguments[0].scrollIntoView();", chart);
 
 			InputSupplier.supplyInput(driver, InputType.TEXT,
-					By.xpath("//label[text()='Current age']//following::input[1]"), null, inputData.get(0).get("age"));
+					By.xpath("//label[text()='Current age']//following::input[1]"), null, inputData.get(0).get("age"), false);
 		}
 		// find element by xpath for drop down for employement status field and pass
 		// option value from input data table
@@ -55,7 +56,7 @@ public class WPScenarioTwoStepDef extends BrowserInstance {
 			InputSupplier.supplyInput(driver, InputType.DROP_DOWN, By.xpath(
 					"//*[@id=\"widget\"]/div/div[1]/div/div[1]/div/div[2]/div/div/div/div[2]/div[1]/div[1]/div/div/div/div[2]"),
 					By.xpath("//label[text()='Employment status']//following::i[1]"),
-					inputData.get(0).get("employment"));
+					inputData.get(0).get("employment"), true);
 
 		}
 
@@ -65,7 +66,7 @@ public class WPScenarioTwoStepDef extends BrowserInstance {
 
 				InputSupplier.supplyInput(driver, InputType.TEXT, By.xpath(
 						"//*[@id=\"widget\"]/div/div[1]/div/div[1]/div/div[3]/div/div/div/div[2]/div[1]/div[1]/div/div/div[1]/div/div/input"),
-						null, inputData.get(0).get("salary"));
+						null, inputData.get(0).get("salary"), false);
 
 			}
 
@@ -94,14 +95,14 @@ public class WPScenarioTwoStepDef extends BrowserInstance {
 						"//*[@id=\"widget\"]/div/div[1]/div/div[1]/div/div[5]/div/div/div/div[2]/div[1]/div[1]/div/div[1]/div/div/div[2]"),
 						By.xpath(
 								"//*[@id=\"widget\"]/div/div[1]/div/div[1]/div/div[5]/div/div/div/div[2]/div[1]/div[1]/div/div[1]/div/div"),
-						inputData.get(0).get("PIR"));
+						inputData.get(0).get("PIR"),false);
 
 			} else {
 				InputSupplier.supplyInput(driver, InputType.DROP_DOWN, By.xpath(
 						"//*[@id=\"widget\"]/div/div[1]/div/div[1]/div/div[3]/div/div/div/div[2]/div[1]/div[1]/div/div[1]/div/div/div[2]"),
 						By.xpath(
 								"//*[@id=\"widget\"]/div/div[1]/div/div[1]/div/div[3]/div/div/div/div[2]/div[1]/div[1]/div/div[1]/div/div"),
-						inputData.get(0).get("PIR"));
+						inputData.get(0).get("PIR"), false);
 
 			}
 
@@ -112,14 +113,14 @@ public class WPScenarioTwoStepDef extends BrowserInstance {
 		if (inputData.get(0).get("kiwibalance") != null) {
 			InputSupplier.supplyInput(driver, InputType.TEXT,
 					By.xpath("//label[text()='Current KiwiSaver balance']//following::input[1]"), null,
-					inputData.get(0).get("kiwibalance"));
+					inputData.get(0).get("kiwibalance"), false);
 
 		}
 		// find element for volunteer and pass value from datatable
 		if (inputData.get(0).get("Voluntary") != null) {
 			InputSupplier.supplyInput(driver, InputType.TEXT,
 					By.xpath("//label[text()='Voluntary contributions']//following::input[1]"), null,
-					inputData.get(0).get("Voluntary"));
+					inputData.get(0).get("Voluntary"), false);
 
 		}
 		// find dropdown for frequency and pass value from datatable
@@ -132,14 +133,14 @@ public class WPScenarioTwoStepDef extends BrowserInstance {
 						"//*[@id=\"widget\"]/div/div[1]/div/div[1]/div/div[8]/div/div/div/div[2]/div[1]/div[1]/div/div/div[1]/div[2]/div/div[2]"),
 						By.xpath(
 								"//*[@id=\"widget\"]/div/div[1]/div/div[1]/div/div[8]/div/div/div/div[2]/div[1]/div[1]/div/div/div[1]/div[2]/div/div[1]/div/span"),
-						inputData.get(0).get("Frequency"));
+						inputData.get(0).get("Frequency"), false);
 
 			} else {
 				InputSupplier.supplyInput(driver, InputType.DROP_DOWN, By.xpath(
 						"//*[@id=\"widget\"]/div/div[1]/div/div[1]/div/div[6]/div/div/div/div[2]/div[1]/div[1]/div/div/div[1]/div[2]/div/div[2]"),
 						By.xpath(
 								"//*[@id=\"widget\"]/div/div[1]/div/div[1]/div/div[6]/div/div/div/div[2]/div[1]/div[1]/div/div/div[1]/div[2]/div/div[1]/div/span"),
-						inputData.get(0).get("Frequency"));
+						inputData.get(0).get("Frequency"), false);
 
 			}
 		}
@@ -173,7 +174,7 @@ public class WPScenarioTwoStepDef extends BrowserInstance {
 		if (!(inputData.get(0).get("goal")).isEmpty()) {
 			InputSupplier.supplyInput(driver, InputType.TEXT,
 					By.xpath("//label[text()='Savings goal at retirement']//following::input[1]"), null,
-					inputData.get(0).get("goal"));
+					inputData.get(0).get("goal"), false);
 
 		}
 	}
@@ -201,6 +202,13 @@ public class WPScenarioTwoStepDef extends BrowserInstance {
 
 		driver.navigate().refresh();
 		Thread.sleep(3000);
+	}
+	
+	@AfterMethod
+	public void close() {
+		
+		driver.close();
+		
 	}
 
 }
