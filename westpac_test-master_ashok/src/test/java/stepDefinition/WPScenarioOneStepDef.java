@@ -1,5 +1,6 @@
 package stepDefinition;
 
+import static org.junit.Assert.assertTrue;
 import static org.testng.Assert.assertEquals;
 
 import java.io.File;
@@ -31,7 +32,7 @@ public class WPScenarioOneStepDef extends BrowserInstance {
 	String ageHelpText;
 
 	@Given("^Open url and navigate to Westpac KiwiSaver Scheme Retirement Calculator$")
-	public void open_url_and_navigate_to_Westpac_KiwiSaver_Scheme_Retirement_Calculator() throws Throwable {
+	public void open_url_and_navigate_to_Westpac_KiwiSaver_Scheme_Retirement_Calculator() throws IOException, InterruptedException {
 		driver = BrowserInstance.getBrowser("Chrome", 74, "windows");
 		driver.get(PropertiesFileReader.getProperty("browser.baseURL"));
 		Thread.sleep(3000);
@@ -42,7 +43,7 @@ public class WPScenarioOneStepDef extends BrowserInstance {
 	}
 
 	@When("^User Clicks information icon beside field cuurent age$")
-	public String user_Clicks_information_icon_beside_fields() throws Throwable {
+	public String user_Clicks_information_icon_beside_fields( )  {
 
 		WebElement frame = driver.findElement(By.cssSelector("div#calculator-embed iframe"));
 		driver.switchTo().frame(frame);
@@ -55,11 +56,21 @@ public class WPScenarioOneStepDef extends BrowserInstance {
 	}
 
 	@Then("^user should be able to see help text \"([^\"]*)\"$")
-	public void user_should_be_able_to_see_help_text(String expectedResult) throws Throwable {
+	public void user_should_be_able_to_see_help_text(String expectedResult) {
 
-		assertEquals(expectedResult, ageHelpText);
+		try {
+			assertEquals(expectedResult, ageHelpText);
+		} catch (AssertionError error) {
+			Utilites.captureScreenShot(driver, "StepOne_Assertion_Falied_");
+			throw error;
+		}
+
 		driver.navigate().refresh();
-		Thread.sleep(3000);
+		try {
+			Thread.sleep(3000);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
 		Utilites.captureScreenShot(driver, "StepOne");
 	}
 }
